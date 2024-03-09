@@ -12,21 +12,23 @@ https://leanprover-community.github.io/get_started.html
 
 There are advantages to installing Lean on your own computer
 (for example it's faster), but it's more hassle than
-just using it online. 
+just using it online.
 
 In the below, delete "sorry" and replace it with some
 tactics which prove the result.
 
 -/
 
-#align_import «2020».problem_sheets.sheet1
+--#align_import «2020».problem_sheets.sheet1
 
-/- Question 1. 
+/- Question 1.
 
 Let P and Q be Propositions (that is, true/false statements).
-Prove that P ∨ Q → Q ∨ P. 
+Prove that P ∨ Q → Q ∨ P.
 
 -/
+import Mathlib.Tactic
+
 namespace ProblemSheets2020Sheet1
 
 theorem question_one (P Q : Prop) : P ∨ Q → Q ∨ P := by sorry
@@ -79,11 +81,11 @@ theorem question_4_false :
   Say that for every integer n we have a proposition P n.
   Say we know P n → P (n + 8) for all n, and
   P n → P (n -3) for all n. Prove that the P n are either
-  all true, or all false. 
+  all true, or all false.
 
 This question is harder than the others.
 -/
-theorem question_5 (P : ℤ → Prop) (h8 : ∀ n, P n → P (n + 8)) (h3 : ∀ n, P n → P (n - 3)) :
+theorem question_5 (P : ℤ → Prop) (h8 : ∀ (n : ℤ), P n → P (n + 8)) (h3 : ∀ n, P n → P (n - 3)) :
     (∀ n, P n) ∨ ∀ n, ¬P n := by sorry
 
 /-
@@ -99,7 +101,6 @@ simp,
 use,
 contradiction (or, better, false.elim)
 
-The fifth question is harder. 
+The fifth question is harder.
 -/
 end ProblemSheets2020Sheet1
-
