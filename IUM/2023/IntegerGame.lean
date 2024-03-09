@@ -16,7 +16,8 @@ that this is an equivalence relation, and define the integers to be the quotient
 
 ## The ring structure on the integers
 
-We extend addition and multiplication to the integers, and also define subtraction.
+We extend addition and multiplication from the naturals to the integers,
+and also define negation `-x` and subtraction `x - y`.
 We then prove that the integers are a commutative ring. The proofs are all of
 the form "reduce to a question about naturals, and then solve it using tactics
 which prove theorems about naturals".
@@ -162,10 +163,12 @@ instance : Add MyInt where add := add
 def mul : MyInt → MyInt → MyInt  := Quotient.map₂ MyPreint.mul <| by
   -- to show this is well-defined, we need to show some lemma or other
   rintro ⟨a, b⟩ ⟨c, d⟩ (h1 : a + d = b + c)
-         ⟨e, f⟩ ⟨g, h⟩ (h2 : e + h = f + g)
+         ⟨p, q⟩ ⟨r, s⟩ (h2 : p + s = q + r)
   simp [MyPreint.mul]
   -- so prove this lemma (which in this case is nonlinear)
-  nlinarith
+  zify at * -- cheat by using Lean integers
+  linear_combination (↑r - ↑s) * h1 + (↑a - ↑b) * h2 -- found using `polyrith`
+  --nlinarith would also work
 
 -- `*` notation
 instance : Mul MyInt where mul := mul
