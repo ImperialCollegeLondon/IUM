@@ -1,4 +1,4 @@
-import Mathlib.scratch.RationalGameAlgebra
+import IUM.«2023».RationalGameAlgebra
 
 /-!
 
@@ -49,6 +49,9 @@ lemma IsNonneg_def (a : ℤ) (b : {x : ℤ // x ≠ 0}) :
 
 /-!
 
+We don't even need any API for this, we just needed a definition
+so that we could define
+
 ### Relationship with the equivalence relation
 
 There seems to be no relationship between non-negativity and
@@ -87,8 +90,9 @@ namespace MyRat
 ## Nonnegativitiy on the rationals
 
 -/
-
-def IsNonneg (x : MyRat) : Prop := ∃ (p : MyPrerat), p.IsNonneg ∧ x = ⟦p⟧
+-- this definition is somehow bad as it asks for proofs of b≠0 and b>0
+def IsNonneg (x : MyRat) : Prop :=
+  ∃ (a b : ℤ) (ha : 0 ≤ a) (hb : 0 < b), x = ⟦(a, ⟨b, hb.ne'⟩)⟧
 
 /-
 
@@ -98,15 +102,13 @@ def IsNonneg (x : MyRat) : Prop := ∃ (p : MyPrerat), p.IsNonneg ∧ x = ⟦p�
 
 @[simp]
 lemma zero_nonneg : IsNonneg 0 := by
-  use (0, ⟨1, by simp⟩)
-  simp [IsNonneg, IsNonneg_def]
-  rfl -- github gopilot wrote this
+  use 0, 1
+  simp [zero_def]
 
 @[simp]
 lemma one_nonneg : IsNonneg 1 := by
-  use (1, ⟨1, by simp⟩)
-  simp [IsNonneg, IsNonneg_def]
-  rfl
+  use 1, 1
+  simp [one_def]
 
 /-
 
@@ -116,24 +118,27 @@ lemma one_nonneg : IsNonneg 1 := by
 
 lemma nonneg_neg {x : MyRat} (h : IsNonneg x) (h' : IsNonneg (-x)) :
     x = 0 := by
-  rcases h with ⟨⟨a, b⟩, ⟨ha, hb⟩, rfl⟩
-  rcases h' with ⟨⟨c, d⟩, ⟨hc, hd⟩, h⟩
-  change ⟦(-a, b)⟧ = _ at h
-  rw [Quotient.eq] at h
-  simp at h
+  -- manually reduce it to a question about integers
+  rcases h with ⟨a, b, ha, hb, rfl⟩
+  rcases h' with ⟨c, d, hc, hd, h⟩
+  -- currently a question about equalities of equivalence classes following from other equalities
+  -- Turn all these hypotheses and conclusions into concrete statements about integers
+  apply Quotient.eq.2
+  apply Quotient.eq.1 at h
+  -- They're unreadable so let the simplifier tidy them up
   simp_all
-  -- now reduce to a = 0
-  suffices a = 0 from by
-    simp [this]
-    apply Quotient.eq.2
-    simp
-  -- now remove the upparrows
-  generalize hb2 : (b : ℤ) = e
-  rw [hb2] at h hb
-  generalize hd2 : (d : ℤ) = f
-  rw [hd2] at h hd
-  -- and now it's a question about integers
-  clear b d hd2 hb2
+  -- and now it's a really boring puzzle about integers. Here it is:
+  /-
+  a b : ℤ
+  c d : ℤ
+  ha : 0 ≤ a
+  hb : 0 < b
+  hc : 0 ≤ c
+  hd : 0 < d
+  h : -(a * d) = b * c
+  ⊢ a = 0
+  -/
+  -- We just blast it with a nonlinear inequality tactic
   nlinarith
 
 -- this one is also useful
@@ -141,32 +146,33 @@ lemma nonneg_neg_of_not_nonneg {x : MyRat} : ¬ IsNonneg x → IsNonneg (-x) := 
   refine Quot.induction_on x ?_
   clear x
   rintro ⟨a, ⟨b, hb⟩⟩ h
+  simp [IsNonneg] at *
+  -- This is as you can imagine a big case bash depending on the signs of a and b.
+  -- The question is to build a nonnegative prerational that maps onto -(a/b)
+  -- given that a/b is not nonnegative. We argue by cases on whether a is nonnegative.
   by_cases ha : 0 ≤ a
-  · use (a, ⟨-b, by omega⟩)
-    simp [IsNonneg, IsNonneg_def]
-    refine ⟨⟨by linarith, ?_⟩, ?_⟩
-    · by_contra! hb2
-      apply h
-      use (a, ⟨b, hb⟩)
-      refine ⟨⟨ha, (by omega : 0 < b)⟩, by simp⟩
-    · apply Quotient.eq.2
-      simp [mul_comm]
-  · simp
-    use (-a, ⟨b, hb⟩)
-    refine ⟨⟨?_, ?_⟩, rfl⟩
-    · simp
-      omega
-    · simp
-      by_contra! hb2
-      apply h
-      clear h
-      use (-a, ⟨-b, by omega⟩)
-      simp [mul_comm]
-      refine ⟨?_, ?_⟩
-      · simp
-        omega
-      · simp
-        omega
+  -- In  a>=0 then the prerational we're going to use is a/(-b).
+  · use a, ha, -b
+    -- We know x is not nonnegative. So if a>=0 then b had better be <0
+    have foo : 0 < -b := by
+      -- because if b>=0 then x=a/b is a nonnegative prerational, a contradiction.
+      by_contra!
+      exact h a b (show 0 < b by omega) ha <| mul_comm _ _
+    clear h -- don't need hypothesis that x is not nonnegative any more.
+    -- A machine can do the rest.
+    use foo
+    apply Quotient.eq.2 -- remaining goal of the form ⟦(p,q)⟧=⟦(r,s)⟧ so turn it into a question
+                        -- about integers being equivalent
+    simp [mul_comm] -- the simplifier reduces this random question to `mul_comm` on `ℤ`
+  · push_neg at ha
+    use -a, (by omega)
+    have foo : ¬ 0 < -b := by
+      -- foo true because other wise you can use h to get a contradiction
+      intro hb
+      exact h (-a) (-b) hb (by omega) (by ring)
+    use b, (by omega)
+    apply Quotient.eq.2
+    simp [mul_comm]
 /-
 
 ## Relationship with addition
@@ -175,13 +181,12 @@ lemma nonneg_neg_of_not_nonneg {x : MyRat} : ¬ IsNonneg x → IsNonneg (-x) := 
 
 lemma isNonneg_add_isNonneg {x y : MyRat} (hx : IsNonneg x) (hy : IsNonneg y) :
     IsNonneg (x + y) := by
-  rcases hx with ⟨⟨a, b⟩, ⟨ha, hb⟩, rfl⟩
-  rcases hy with ⟨⟨c, d⟩, ⟨hc, hd⟩, rfl⟩
-  use (a * d + b * c, b * d)
-  simp [IsNonneg, IsNonneg_def]
-  refine ⟨⟨?_, ?_⟩, rfl⟩
-  · nlinarith
-  · nlinarith
+  rcases hx with ⟨a, b, ha, hb, rfl⟩
+  rcases hy with ⟨c, d, hc, hd, rfl⟩
+  use a * d + b * c, b * d, (by nlinarith), (by nlinarith)
+  apply Quotient.eq.2
+  simp
+  ring
 
 /-
 
@@ -189,16 +194,15 @@ lemma isNonneg_add_isNonneg {x y : MyRat} (hx : IsNonneg x) (hy : IsNonneg y) :
 
 -/
 
--- github copilot wrote this
+-- github copilot wrote the first proof I had of this
 lemma isNonneg_mul_isNonneg {x y : MyRat} (hx : IsNonneg x) (hy : IsNonneg y) :
     IsNonneg (x * y) := by
-  rcases hx with ⟨⟨a, b⟩, ⟨ha, hb⟩, rfl⟩
-  rcases hy with ⟨⟨c, d⟩, ⟨hc, hd⟩, rfl⟩
-  use (a * c, b * d)
-  simp [IsNonneg, IsNonneg_def]
-  refine ⟨⟨?_, ?_⟩, rfl⟩
-  · nlinarith
-  · nlinarith
+  rcases hx with ⟨a, b, ha, hb, rfl⟩
+  rcases hy with ⟨c, d, hc, hd, rfl⟩
+  use a * c, b * d, by nlinarith, by nlinarith
+  apply Quotient.eq.2
+  simp
+  ring
 
 /-
 
@@ -208,18 +212,14 @@ lemma isNonneg_mul_isNonneg {x y : MyRat} (hx : IsNonneg x) (hy : IsNonneg y) :
 
 lemma isNonneg_inv_isNonneg {x : MyRat} (hx : IsNonneg x) :
     IsNonneg x⁻¹ := by
-  rcases hx with ⟨⟨a, b, hb⟩, ⟨(ha : 0 ≤ a), (hb2 : 0 < b)⟩, rfl⟩
+  rcases hx with ⟨a, b, (ha : 0 ≤ a), (hb2 : 0 < b), rfl⟩
   rcases eq_or_ne a 0 with (rfl | ha2)
-  · use (0, ⟨1, by simp⟩)
+  · use 0, 1, by simp
     simp [IsNonneg, IsNonneg_def]
     rfl
-  · use (b, ⟨a, ha2⟩)
-    simp [IsNonneg, IsNonneg_def]
-    have bar : 0 < a := by omega
-    refine ⟨⟨by linarith, by linarith⟩, ?_⟩
+  · use b, a, by omega, by omega
     apply Quotient.eq.2
-    have haz : b * a = a * b := mul_comm b a
-    aesop
+    simp [MyPrerat.inv, ha2, mul_comm]
 
 /-!
 
@@ -317,24 +317,14 @@ preserves and reflects `≤`. -/
 lemma j_le (p q : ℤ) : j p ≤ j q ↔ p ≤ q := by
   change IsNonneg _ ↔ _
   refine ⟨?_, ?_⟩
-  · rintro ⟨⟨a, b, hb⟩, ⟨(ha : 0 ≤ a), (hb : 0 < b)⟩, h⟩
-    rw [MyRat.Quotient.mk_def] at h
-    change _ = _ * (j b)⁻¹ at h
-    symm at h
-    rw [mul_inv_eq_iff_eq_mul₀, sub_mul, eq_comm, sub_eq_iff_eq_add] at h
-    · rw [← j_mul, ← j_mul, ← j_add, j_injective] at h
-      nlinarith
-    · intro h
-      rw [← j_zero] at h
-      rw [j_injective] at h
-      omega
+  · rintro ⟨a, b, (ha : 0 ≤ a), (hb : 0 < b), h⟩
+    apply Quotient.eq.1 at h
+    simp at h
+    nlinarith
   · intro h
-    use (q - p, ⟨1, by simp⟩)
-    simp [IsNonneg, IsNonneg_def]
-    use h
-    rw [MyRat.Quotient.mk_def]
-    simp [j_one]
-    rw [sub_eq_iff_eq_add, ← j_add, j_injective]
+    use q - p, 1, by omega, by omega
+    apply Quotient.eq.2
+    simp
     ring
 
 /-- The natural map from the naturals to the rationals preserves
@@ -343,7 +333,7 @@ lemma i_le (a b : ℕ) : i a ≤ i b ↔ a ≤ b := by
   change IsNonneg _ ↔ _
   simp [le_def, IsNonneg, IsNonneg_def]
   constructor
-  · rintro ⟨c, d, ⟨⟨hc, hd⟩, _, h⟩⟩
+  · rintro ⟨c, hc, d, hd, h⟩
     simp [MyRat.Quotient.mk_def ] at h
     suffices (a : ℤ) ≤ (b : ℤ) from by
       exact_mod_cast this
@@ -357,10 +347,10 @@ lemma i_le (a b : ℕ) : i a ≤ i b ↔ a ≤ b := by
       rw [le_def]
       rw [h]
       apply isNonneg_mul_isNonneg
-      · use (c, ⟨1, by simp⟩)
+      · use c, 1
         simp [IsNonneg, IsNonneg_def]
         aesop
-      · refine ⟨(1, ⟨d, hd.ne'⟩), ⟨by simp, by linarith⟩, ?_⟩
+      · refine ⟨1, d, by simp, hd, ?_⟩
         apply Quotient.eq.2
         rw [MyPrerat.inv_def]
     · clear! c d
@@ -369,8 +359,7 @@ lemma i_le (a b : ℕ) : i a ≤ i b ↔ a ≤ b := by
   · intro h
     rw [le_iff_exists_add] at h
     rcases h with ⟨c, rfl⟩
-    use c, 1
-    refine ⟨⟨by aesop, by simp⟩, by simp, ?_⟩
+    use c, by simp, 1, by simp
     change i (a + c) - i a = i c
     rw [sub_eq_iff_eq_add, i_add, add_comm]
 
