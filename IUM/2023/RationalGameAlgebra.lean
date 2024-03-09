@@ -18,27 +18,20 @@ and define the integers to be the quotient.
 ## The field structure on the rationals
 
 We extend addition, subtraction and multiplication to the rationals, and also
-define division. We then prove that the rationals are a field.
-
-## TODO up to here
-commutative ring. The proofs are all of
-the form "reduce to a question about naturals, and then solve it using tactics
-which prove theorems about naturals".
+define division. We then prove that the rationals are a field. The proofs are all of
+the form "reduce to a question about integers, and then solve it using tactics
+which prove theorems about integers".
 
 ## The ordering on the integers
 
-We prove that the integers are a total order, and also that the ordering
-plays well with the ring structure.
-
+In the file `RationalGameOrder.lean` we define an ordering on the rationals,
+prove that it is total, and that it plays well with the ring structure
+defined in this file.
 -/
 
 /-!
 
 ## The pre-rationals
-
--/
-
-/-!
 
 ### Denominator API
 
@@ -51,7 +44,7 @@ instance : Mul {x : ℤ // x ≠ 0} where
 
 /-!
 
-### Definition
+### Definition of `MyPrerat`, the pre-rationals
 
 -/
 
@@ -62,7 +55,7 @@ namespace MyPrerat
 
 /-!
 
-## The equivalence relation on the pre-rationals
+## The equivalence relation on `MyPrerat`
 
 -/
 
@@ -170,13 +163,12 @@ def inv (ab : MyPrerat) : MyPrerat := if ha : ab.1 ≠ 0 then ⟨ab.2, ab.1, ha�
 -- teach it to the simplifier
 @[simp] lemma inv_def {a : ℤ} (b : {x : ℤ // x ≠ 0}) (ha : a ≠ 0) :
     inv (a, b) = (b.1, ⟨a, ha⟩) := by
+  -- Proof: obvious by definition of `inv`
   unfold inv
-  convert if_pos ha
-  rfl -- surely this shouldn't happen **TODO**
+  split <;> simp
 
 lemma inv_def' (a : ℤ) (b : {x : ℤ // x ≠ 0}) :
   inv (a, b) = if ha : a ≠ 0 then ⟨b, a, ha⟩ else ⟨0, 1, by simp⟩ := rfl
-
 
 end MyPrerat
 
@@ -196,13 +188,13 @@ namespace MyRat
 @[simp] lemma Quot_eq_Quotient (a : ℤ) (b : {x : ℤ // x ≠ 0}) :
     Quot.mk Setoid.r (a, b) = ⟦(a, b)⟧ := rfl
 
--- `0` notation (the equiv class of (0,0))
+-- `0` notation (the equiv class of (0,1))
 instance : Zero MyRat where zero := ⟦(0, ⟨1, one_ne_zero⟩)⟧
 
 -- lemma stating definition of zero
 lemma zero_def : (0 : MyRat) = ⟦(0, ⟨1, one_ne_zero⟩)⟧ := rfl
 
--- `1` notation (the equiv class of (1,0))
+-- `1` notation (the equiv class of (1,1))
 instance : One MyRat where one := ⟦(1, ⟨1, one_ne_zero⟩)⟧
 
 -- lemma stating definition of one
@@ -227,12 +219,9 @@ def add : MyRat → MyRat → MyRat := Quotient.map₂ MyPrerat.add <| by
   rintro ⟨a, b, hb⟩ ⟨c, d, hd⟩ (h1 : a * d = b * c)
          ⟨e, f, hf⟩ ⟨g, h, hh⟩ (h2 : e * h = f * g)
   simp [MyPrerat.add]
-  -- So prove this lemma
-  -- except that I have to work to do this
-  -- *TODO* does `polyrith` do this?
-  suffices (a * d) * (f * h) + (e * h) * (b * d) = (b * c) * (f * h) + (f * g) * (b * d) by
-    linarith
-  rw [h1, h2]
+  -- it's just some random puzzle about polynomials in algebra
+  -- So prove this lemma using `polyrith`
+  linear_combination f * h * h1 + b * d * h2
 
 -- `+` notation
 instance : Add MyRat where add := add
@@ -243,11 +232,8 @@ def mul : MyRat → MyRat → MyRat  := Quotient.map₂ MyPrerat.mul <| by
   rintro ⟨a, b, hb⟩ ⟨c, d, hd⟩ (h1 : a * d = b * c)
          ⟨e, f, hf⟩ ⟨g, h, hh⟩ (h2 : e * h = f * g)
   simp [MyPrerat.mul]
-  -- so prove this lemma (which in this case is nonlinear)
-  -- this is so polyrith **TODO**
-  suffices (a * d) * (e * h) = (b * c) * (f * g) by
-    linarith
-  rw [h1, h2]
+  -- so prove this lemma with polyrith
+  linear_combination f * g * h1 + a * d * h2
 
 -- `*` notation
 instance : Mul MyRat where mul := mul
@@ -267,23 +253,11 @@ def inv : MyRat → MyRat := Quotient.map MyPrerat.inv <| by
   -- show some lemma or other
   rintro ⟨a, b, hb⟩ ⟨c, d, hd⟩ (h : a * d = b * c)
   simp [MyPrerat.inv]
-  -- So prove this lemma
-  split
-  · case inl ha =>
-      subst ha -- a = 0
-      rw [zero_mul, eq_comm, mul_eq_zero] at h
-      rcases h with (rfl | rfl)
-      · contradiction
-      · -- so c = 0
-        simp
-  · case inr ha =>
-      change a ≠ 0 at ha
-      have hc : c ≠ 0 := by
-        rintro rfl
-        rw [mul_zero, mul_eq_zero] at h
-        tauto
-      split; contradiction
-      exact h.symm
+  -- four cases depending on whether a=0 and c=0
+  -- because of definition of `inv`
+  -- high-powered logic tactic `aesop` just grinds
+  -- out the case split.
+  aesop
 
 instance : Inv MyRat := ⟨inv⟩
 
@@ -302,6 +276,11 @@ The problem is that we need three slightly different tactics depending on whethe
 axiom mentions 1, 2 or 3 variables.
 
 -/
+
+section tactic_hackery
+
+-- This section contains everything Kevin knows about tactic writing:
+-- you can write a tactic which just does other tactics in some order.
 
 macro "quot_proof₁" : tactic =>
   `(tactic|
@@ -333,7 +312,16 @@ macro "quot_proof₃" : tactic =>
     simp
     try ring)
 
-/-- Tactic for proving equality goals in rings defined as quotients. -/
+/-- Tactic for proving equality goals in rings defined as quotients.
+
+It will work if there are between 1 and 3 variables, and it
+uses the universal property of quotients to reduce the equality
+to an equality of polynomials with coefficients in the *integers*,
+and then attempts to use the `ring` tactic to solve it. -/
+
+-- note that we have to go through all this: we can't use `ring`
+-- on MyRat directly yet and we're using this tool to prove
+-- that it's a commutative ring, after which we will be able to use `ring`.
 macro "quot_proof" : tactic =>
   `(tactic|
   focus
@@ -341,6 +329,8 @@ macro "quot_proof" : tactic =>
     try quot_proof₂
     try quot_proof₃
   )
+
+end tactic_hackery
 
 instance commRing : CommRing MyRat where
   add := (. + .)
@@ -492,6 +482,7 @@ end MyRat
 /-!
 
 Want more of this nonsense? See how the concept of order is developed
-on the rational numbers in `RationalGemaOrder.lean`
+on the rational numbers in `RationalGameOrder.lean`. It's more
+subtle than what we had to do here, which was only equational reasoning.
 
 -/
