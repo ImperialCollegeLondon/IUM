@@ -3,9 +3,7 @@ Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
-import Mathbin.Tactic.Default
-
-#align_import «2022».logic.sheet3
+import Mathlib.Tactic
 
 /-!
 
@@ -85,4 +83,3 @@ example : ¬¬False → False := by sorry
 example : ¬¬P → P := by sorry
 
 example : (¬Q → ¬P) → P → Q := by sorry
-

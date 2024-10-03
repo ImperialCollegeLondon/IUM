@@ -3,9 +3,7 @@ Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
-import Mathbin.Tactic.Default
-
-#align_import «2022».logic.sheet6
+import Mathlib.Tactic
 
 /-!
 
@@ -62,4 +60,3 @@ example : (P ↔ R) → (Q ↔ S) → (P ∨ Q ↔ R ∨ S) := by sorry
 example : ¬(P ∨ Q) ↔ ¬P ∧ ¬Q := by sorry
 
 example : ¬(P ∧ Q) ↔ ¬P ∨ ¬Q := by sorry
-

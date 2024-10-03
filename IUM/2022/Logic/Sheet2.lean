@@ -3,9 +3,7 @@ Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Author : Kevin Buzzard
 -/
-import Mathbin.Tactic.Default
-
-#align_import «2022».logic.sheet2
+import Mathlib.Tactic
 
 /-!
 
@@ -23,11 +21,11 @@ tactics, plus the following two new ones:
 
 ### The `trivial` tactic
 
-If your goal is `⊢ true` then `trivial,` will solve it. 
+If your goal is `⊢ true` then `trivial,` will solve it.
 
 ### The `exfalso` tactic
 
-The tactic `exfalso,` turns any goal `⊢ P` into `⊢ false`. 
+The tactic `exfalso,` turns any goal `⊢ P` into `⊢ false`.
 This is mathematically valid because `false` implies any goal.
 
 -/
@@ -57,4 +55,3 @@ example : P → (P → False) → False := by sorry
 example : (P → False) → P → Q := by sorry
 
 example : (True → False) → P := by sorry
-
