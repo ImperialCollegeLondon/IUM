@@ -7,9 +7,9 @@ import Mathlib.Tactic
 
 /-!
 
-# Logic in Lean, example sheet 2 : `true` and `false`
+# Logic in Lean, example sheet 2 : `True` and `False`
 
-We learn about the `true` and `false` propositions.
+We learn about the `True` and `False` propositions.
 
 ## Tactics you will need
 
@@ -21,37 +21,44 @@ tactics, plus the following two new ones:
 
 ### The `trivial` tactic
 
-If your goal is `⊢ true` then `trivial,` will solve it.
+If your goal is `⊢ True` then `trivial,` will solve it.
 
 ### The `exfalso` tactic
 
-The tactic `exfalso,` turns any goal `⊢ P` into `⊢ false`.
-This is mathematically valid because `false` implies any goal.
+The tactic `exfalso,` turns any goal `⊢ P` into `⊢ False`.
+This is mathematically valid because `False` implies any goal.
 
 -/
 
-
--- imports all the Lean tactics
--- imports all the Lean tactics
 -- Throughout this sheet, `P`, `Q` and `R` will denote propositions.
 variable (P Q R : Prop)
 
-example : True := by sorry
+example : True := by
+  sorry
 
-example : True → True := by sorry
+example : True → True := by
+  sorry
 
-example : False → True := by sorry
+example : False → True := by
+  sorry
 
-example : False → False := by sorry
+example : False → False := by
+  sorry
 
-example : (True → False) → False := by sorry
+example : (True → False) → False := by
+  sorry
 
-example : False → P := by sorry
+example : False → P := by
+  sorry
 
-example : True → False → True → False → True → False := by sorry
+example : True → False → True → False → True → False := by
+  sorry
 
-example : P → (P → False) → False := by sorry
+example : P → (P → False) → False := by
+  sorry
 
-example : (P → False) → P → Q := by sorry
+example : (P → False) → P → Q := by
+  sorry
 
-example : (True → False) → P := by sorry
+example : (True → False) → P := by
+  sorry
