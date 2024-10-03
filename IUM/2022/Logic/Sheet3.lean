@@ -13,7 +13,7 @@ We learn about how to manipulate `¬ P` in Lean.
 
 # Important : the definition of `¬ P`
 
-In Lean, `¬ P` is *defined* to mean `P → false`. So `¬ P` and `P → false`
+In Lean, `¬ P` is *defined* to mean `P → False`. So `¬ P` and `P → False`
 are *the same thing* and can be used interchangeably. You can change
 from one to the other for free.
 
@@ -30,20 +30,20 @@ and also the following tactics:
 
 The `change` tactic changes a goal to a goal which
 is *equal to it by definition*. The example you need to know
-is that `¬ P` and `P → false` are equal by definition.
+is that `¬ P` and `P → False` are equal by definition.
 
-If your goal is `⊢ ¬ P` then `change P → false,` will
-change it to `P → false`. Similarly if you have a hypothesis
-`h : ¬ P` then `change P → false at h,` will change it to `h : P → false`.
+If your goal is `⊢ ¬ P` then `change P → False,` will
+change it to `P → False`. Similarly if you have a hypothesis
+`h : ¬ P` then `change P → False at h,` will change it to `h : P → False`.
 
 Note that this tactic is just for psychological purposes. If you finish
 a proof which uses this tactic, try commenting out the `change` lines
-and note that it doesn't break.
+and see if it breaks!
 
 ### The `by_contra` tactic
 
 If your goal is `⊢ P` and you want to prove it by contradiction,
-`by_contra h,` will change the goal to `false` and add a hypothesis
+`by_contra h,` will change the goal to `False` and add a hypothesis
 `h : ¬ P`.
 
 ### The `by_cases` tactic
@@ -54,32 +54,41 @@ and the other with hypothesis `hP : ¬ P`.
 
 -/
 
-
--- imports all the Lean tactics
--- imports all the Lean tactics
 -- Throughout this sheet, `P`, `Q` and `R` will denote propositions.
 variable (P Q R : Prop)
 
-example : ¬P → P → False := by sorry
+example : ¬P → P → False := by
+  sorry
 
-example : ¬True → False := by sorry
+example : ¬True → False := by
+  sorry
 
-example : False → ¬True := by sorry
+example : False → ¬True := by
+  sorry
 
-example : ¬False → True := by sorry
+example : ¬False → True := by
+  sorry
 
-example : True → ¬False := by sorry
+example : True → ¬False := by
+  sorry
 
-example : False → ¬P := by sorry
+example : False → ¬P := by
+  sorry
 
-example : P → ¬P → False := by sorry
+example : P → ¬P → False := by
+  sorry
 
-example : P → ¬¬P := by sorry
+example : P → ¬¬P := by
+  sorry
 
-example : (P → Q) → ¬Q → ¬P := by sorry
+example : (P → Q) → ¬Q → ¬P := by
+  sorry
 
-example : ¬¬False → False := by sorry
+example : ¬¬False → False := by
+  sorry
 
-example : ¬¬P → P := by sorry
+example : ¬¬P → P := by
+  sorry
 
-example : (¬Q → ¬P) → P → Q := by sorry
+example : (¬Q → ¬P) → P → Q := by
+  sorry
