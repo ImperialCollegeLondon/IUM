@@ -94,13 +94,13 @@ def neg (ab : MyPreint) : MyPreint := (ab.2, ab.1)
 @[simp] lemma neg_def (a b : ℕ) : neg (a, b) = (b, a) := rfl
 
 /-- Addition on pre-integers. -/
-def add (ab cd : MyPreint) : MyPreint := (ab.1 + cd.1, ab.2 + cd.2)
+@[simp] def add (ab cd : MyPreint) : MyPreint := (ab.1 + cd.1, ab.2 + cd.2)
 
 -- teach it to the simplifier
 @[simp] lemma add_def (a b c d : ℕ) : add (a, b) (c, d) = (a + c, b + d) := rfl
 
 /-- Multiplication on pre-integers. -/
-def mul (ab cd : MyPreint) : MyPreint := (ab.1 * cd.1 + ab.2 * cd.2, ab.1 * cd.2 + ab.2 * cd.1)
+@[simp] def mul (ab cd : MyPreint) : MyPreint := (ab.1 * cd.1 + ab.2 * cd.2, ab.1 * cd.2 + ab.2 * cd.1)
 
 -- teach it to the simplifier
 @[simp] lemma mul_def (a b c d : ℕ) : mul (a, b) (c, d) = (a * c + b * d, a * d + b * c) := rfl
@@ -197,7 +197,7 @@ macro "quot_proof₁" : tactic =>
     refine Quot.induction_on x ?_
     rintro ⟨a, b⟩
     apply Quot.sound
-    simp
+    simp [Setoid.r, R]
     try ring)
 
 macro "quot_proof₂" : tactic =>
@@ -207,7 +207,7 @@ macro "quot_proof₂" : tactic =>
     refine Quot.induction_on₂ x y ?_
     rintro ⟨a, b⟩ ⟨c, d⟩
     apply Quot.sound
-    simp
+    simp [Setoid.r, R]
     try ring)
 
 macro "quot_proof₃" : tactic =>
@@ -217,7 +217,7 @@ macro "quot_proof₃" : tactic =>
     refine Quot.induction_on₃ x y z ?_
     rintro ⟨a, b⟩ ⟨c, d⟩ ⟨e, f⟩
     apply Quot.sound
-    simp
+    simp [Setoid.r, R]
     try ring)
 
 /-- Tactic for proving equality goals in rings defined as quotients. -/
@@ -246,13 +246,13 @@ instance commRing : CommRing MyInt where
   one_mul := by quot_proof
   mul_one := by quot_proof
   neg := (- .)
-  add_left_neg := by quot_proof
   mul_comm := by quot_proof
-
---#find Quotient.mk ?a ?b = Quotient.mk ?a ?c
+  neg_add_cancel := by quot_proof
+  nsmul := nsmulRec
+  zsmul := zsmulRec
 
 lemma zero_ne_one : (0 : MyInt) ≠ 1 := by
-  simp [zero_def, one_def]
+  simp [zero_def, one_def, HasEquiv.Equiv, Setoid.r, R]
 
 /-!
 
@@ -385,6 +385,7 @@ lemma mul_pos (x y : MyInt) (ha : 0 < x) (hb : 0 < y) : 0 < x * y := by
     rintro ⟨a, b⟩ ⟨c, d⟩ h1 h2
     simp_all [zero_def, mul_def]
     intro h
+    simp [HasEquiv.Equiv, Setoid.r, R] at h
     cases aux_mul_lemma _ _ _ _ h <;> tauto
   · replace ha := ha.le
     replace hb := hb.le
