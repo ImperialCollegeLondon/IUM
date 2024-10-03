@@ -349,8 +349,10 @@ instance commRing : CommRing MyRat where
   one_mul := by quot_proof
   mul_one := by quot_proof
   neg := (- .)
-  add_left_neg := by quot_proof
   mul_comm := by quot_proof
+  neg_add_cancel := by quot_proof
+  nsmul := nsmulRec
+  zsmul := zsmulRec
 
 -- To make the rationals into a field we need to think a little more.
 
@@ -379,6 +381,8 @@ instance field : Field MyRat where
   exists_pair_ne := ⟨0, 1, zero_ne_one⟩
   mul_inv_cancel := mul_inv_cancel
   inv_zero := rfl
+  qsmul := _
+  nnqsmul := _
 
 /-!
 
