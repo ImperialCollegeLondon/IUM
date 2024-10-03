@@ -1,6 +1,6 @@
 # Introduction to University Mathematics
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/kbuzzard/IISc-experiments)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ImperialCollegeLondon/IUM)
 
 These are Lean files which relate to Imperial College London's Introduction to University Mathematics course. 
 
