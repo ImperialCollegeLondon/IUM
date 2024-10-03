@@ -1,6 +1,6 @@
 # Introduction to University Mathematics
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ImperialCollegeLondon/IUM)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ImperialCollegeLondon/IUM).
 
 These are Lean files which relate to Imperial College London's Introduction to University Mathematics course. 
 
@@ -11,6 +11,16 @@ I lectured Part II in 2023, and the files in the `2023` directory contain self-c
 Everything in `Old` is autoported from Lean 3 and may well not run without being fixed up.
 
 ### Remote running via GitPod
+
+IMPORTANT: the first time you try this, it can take up to 5 minutes. It's really important that you don't open any files or click on anything until you see the message
+```text
+Attempting to download 5149 file(s)
+Downloaded: 5149 file(s) [attempted 5149/5149 = 100%] (100% success)
+Decompressing 5149 file(s)
+Unpacked in 26052 ms
+Completed successfully!
+```
+at the bottom of the screen. In particular, opening a file in the repo before mathlib is fully downloaded may trigger a compilation of mathlib which will cause trouble.
 
 You don't need to install anything onto your computer to run this repo. Just click on the "Open in Gitpod" link above. I guess you'll need an account
 at github.com for this to work.
