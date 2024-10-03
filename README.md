@@ -12,6 +12,9 @@ Everything in `Old` is autoported from Lean 3 and may well not run without being
 
 ### Remote running via GitPod
 
+You don't need to install anything onto your computer to run this repo. Just click on the "Open in Gitpod" link above. I guess you'll need an account
+at github.com for this to work.
+
 IMPORTANT: the first time you try this, it can take up to 5 minutes. It's really important that you don't open any files or click on anything until you see the message
 ```text
 Attempting to download 5149 file(s)
@@ -22,10 +25,11 @@ Completed successfully!
 ```
 at the bottom of the screen. In particular, opening a file in the repo before mathlib is fully downloaded may trigger a compilation of mathlib which will cause trouble.
 
-You don't need to install anything onto your computer to run this repo. Just click on the "Open in Gitpod" link above. I guess you'll need an account
-at github.com for this to work.
+Once you have this set-up working you can just bookmark the page and then it will start up essentially instantly.
 
 ### Local installation
 
 You can install everything locally following the instructions [here](https://docs.lean-lang.org/lean4/doc/quickstart.html) (to install Lean)
-and then [here](https://leanprover-community.github.io/install/project.html) (to install this project).
+and then [here](https://leanprover-community.github.io/install/project.html) (to install this project). 
+
+The advantage of this is that you 
