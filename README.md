@@ -31,5 +31,3 @@ Once you have this set-up working you can just bookmark the page and then it wil
 
 You can install everything locally following the instructions [here](https://docs.lean-lang.org/lean4/doc/quickstart.html) (to install Lean)
 and then [here](https://leanprover-community.github.io/install/project.html) (to install this project). 
-
-The advantage of this is that you 
