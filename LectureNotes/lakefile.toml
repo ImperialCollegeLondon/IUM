@@ -1,0 +1,32 @@
+name = "proofs_with_lean"
+version = "0.1.0"
+defaultTargets = ["LectureNotes"]
+
+[leanOptions]
+pp.unicode.fun = true
+pp.proofs.withType = false
+linter.all = false
+weak.linter.unusedTactic = false
+weak.linter.hashCommand = false
+weak.linter.oldObtain = false
+weak.linter.refine = false
+weak.linter.style.cdot = false
+weak.linter.style.dollarSyntax = false
+weak.linter.style.header = false
+weak.linter.style.lambdaSyntax = false
+weak.linter.style.longLine = false
+weak.linter.style.missingEnd = false
+weak.linter.style.setOption = false
+weak.linter.style.multiGoal = false
+
+[[require]]
+name = "verso"
+git = "https://github.com/leanprover/verso.git"
+rev = "v4.22.0"
+
+[[lean_lib]]
+name = "LectureNotes"
+
+[[lean_exe]]
+name = "lecturenotes"
+root = "LectureNotesMain"

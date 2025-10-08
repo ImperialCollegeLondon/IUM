@@ -1,0 +1,8 @@
+theorem names
+cross-references to theorems *inside text which is inside a math env*
+number list with a,b,c rather than 1,2,3
+abbreviations for use in math mode (similar to TeX \newcommand)
+cross-references to sub-parts of theorems
+reverse italicization for emphasis in italicized definition blocks
+hide case names
+expand all cases by default

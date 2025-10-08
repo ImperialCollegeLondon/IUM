@@ -1,1 +1,7 @@
-/.lake
+/LectureNotes/.lake
+/LectureNotes/_out
+*.tex
+/IUM/.lake
+/_out
+/Junk
+.DS_Store
