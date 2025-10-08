@@ -1,0 +1,3 @@
+the "cases" variant leaves a trace in the goal state, clear this variable
+make "by definition of add" a CalcStep so no goal state info appears before/after
+Make goal state info appear at the beginning of Proof: and at the beginning of a new tactic after Fact

@@ -1,0 +1,34 @@
+name = "proofs_with_lean"
+version = "0.1.0"
+defaultTargets = ["IUM"]
+
+[leanOptions]
+pp.unicode.fun = true
+pp.proofs.withType = false
+linter.all = false
+weak.linter.unusedTactic = false
+weak.linter.hashCommand = false
+weak.linter.oldObtain = false
+weak.linter.refine = false
+weak.linter.style.cdot = false
+weak.linter.style.dollarSyntax = false
+weak.linter.style.header = false
+weak.linter.style.lambdaSyntax = false
+weak.linter.style.longLine = false
+weak.linter.style.missingEnd = false
+weak.linter.style.setOption = false
+weak.linter.style.multiGoal = false
+
+[[require]]
+name = "verbose"
+git = "https://github.com/PatrickMassot/verbose-lean4.git"
+rev = "master"
+
+[[require]]
+name = "subverso"
+git = "https://github.com/leanprover/subverso.git"
+rev = "main"
+
+[[lean_lib]]
+name = "IUM"
+globs = ["IUM"]
