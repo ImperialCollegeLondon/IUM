@@ -1,0 +1,47 @@
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  pages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Build Lean
+        uses: leanprover/lean-action@main
+        with:
+          lake-package-directory: IUM
+
+      - name: Run Verso
+        working-directory: LectureNotes
+        run: lake exe lecturenotes
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        if: github.ref == 'refs/heads/main'
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: LectureNotes/_out/html-multi
+        if: github.ref == 'refs/heads/main'
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4
+        if: github.ref == 'refs/heads/main'
+
+
