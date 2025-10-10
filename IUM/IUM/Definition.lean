@@ -29,6 +29,7 @@ open Lean Meta Elab Tactic Mathlib.Tactic
 
 /-- Recursion principle for `MyNat` in which we use the notation `0`, rather than `.zero`, and the
 case names `BaseCase` and `InductiveStep`, rather than `zero` and `succ`. -/
+@[elab_as_elim, induction_eliminator]
 def MyNat.rec' {motive : ℕ → Sort*} (BaseCase : motive 0)
     (InductiveStep : ∀ a : ℕ, motive a → motive (succ a)) :
     ∀ t : ℕ, motive t

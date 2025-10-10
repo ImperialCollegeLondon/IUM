@@ -175,10 +175,8 @@ It is amusing to note that we were able to prove lots of theorems about addition
 
 In Peano's original paper, he add two extra axioms to the system in order to make this easy.
 
-:::definition (title := "Peano's extra axioms")
 * If $`x` is a natural number, then $`S(x)\not=0.`
 * If $`x` and $`y` are natural numbers and $`S(x)=S(y)`, then $`x=y`.
-:::
 
 The first of these axioms says that if you keep applying $`S` then you will never end up back at $`0`, and the second axiom says that $`S` is an _injective_ function.
 Put together, these two axioms guarantee that if we keep applying the $`S` function then it will never output a number which we've seen before ("counting doesn't loop").
@@ -199,6 +197,16 @@ But this contradicts the first extra axiom (set $`x=0`).
 
 However, using the more modern approach explained in these notes,
 it is possible to _prove_ these two extra axioms of Peano -- we don't need them after all.
+So for us they are _theorems_, not _axioms_.
+
+:::theorem (title := "Peano's extra axioms")
+* If $`x` is a natural number, then $`S(x)\not=0.`
+* If $`x` and $`y` are natural numbers and $`S(x)=S(y)`, then $`x=y`.
+:::
+
+This proof is non-examinable.
+
+:::proof
 Let's use the axiom of recursion ("that's it") to define two new temporary functions.
 First let's define a function $`Z` from the natural numbers to the set $`\{{\tt true},{\tt false}\}` by recursion.
 It's called $`Z` because it detects whether a number is zero.
@@ -225,12 +233,16 @@ Indeed, if $`x` and $`y` are natural numbers and $`S(x)=S(y)`,
 then applying $`P` we deduce $`P(S(x))=P(S(y))` and hence $`x=y`, which is what we require.
 We conclude that Peano's extra axioms can be proved from the three axioms we assumed at the beginning.
 
-We saw some slightly odd uses of recursion above;
+:::
+
+We saw some slightly odd uses of recursion in the proof above;
 here's a slightly odd use of induction.
 
 :::theorem "zero_or_succ"
 Every natural number $`x` is either $`0` or the successor of some other natural number.
 :::
+
+This proof is non-examinable too.
 
 :::proof
 Induction on $`x`.

@@ -42,11 +42,12 @@ and we prove $`P_n` for all $`n`, by induction.
 Lemma add_right_cancel
   "Addition is cancellative"
   Given: {x y n : ℕ}
-  Assume: (h : x + n = y + n)
-  Conclusion: x = y
+  Assume:
+  Conclusion: x + n = y + n → x = y
 Proof:
   Let's prove this by induction on n
-  · Calc
+  · Assume h : x + 0 = y + 0
+    Calc
       x = x + 0 by definition of add
       _ = y + 0 from h
       _ = y     by definition of add
