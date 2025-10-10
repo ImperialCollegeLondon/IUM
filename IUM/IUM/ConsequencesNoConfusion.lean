@@ -3,15 +3,35 @@ import IUM.NoJunkNoConfusion
 
 namespace MyNat
 
+/-- Addition is cancellative -/
+lemma add_right_cancel' {x y n : ℕ} : x + n = y + n → x = y := by
+  induction n with
+  | BaseCase =>
+    intro h
+    calc
+      x = x + 0 := by apply_def add
+      _ = y + 0 := by rel [h]
+      _ = y     := by apply_def add
+  | InductiveStep k IH =>
+    intro h1
+    have h2 :=
+      calc
+        succ (x + k) = x + succ k   := by apply_def add
+        _            = y + succ k   := by rel [h1]
+        _            = succ (y + k) := by apply_def add
+    apply succ_inj at h2
+    exact IH h2
+
 -- ANCHOR: th_add_right_cancel
 Lemma add_right_cancel
   "Addition is cancellative"
   Given: {x y n : ℕ}
-  Assume: (h : x + n = y + n)
-  Conclusion: x = y
+  Assume:
+  Conclusion: x + n = y + n → x = y
 Proof:
   Let's prove this by induction on n
-  · Calc
+  · Assume h : x + 0 = y + 0
+    Calc
       x = x + 0 by definition of add
       _ = y + 0 from h
       _ = y     by definition of add

@@ -53,6 +53,16 @@ $$`\begin{align*}
 
 *Exercise.* Prove that $`2+2=4`.
 
+-- $$`\begin{align*}
+-- 2+2&=2+S(1) \\
+--    &=S(2+1)  \\
+--    &=S(2+S(0)) \\
+--    &=S(S(2+0)) \\
+--    &=S(S(2)) \\
+--    &=S(3) &&\qquad\star\\
+--    &=4.
+-- \end{align*}`
+
 Now we have defined addition, the equation $`S(x)=x+1` finally _makes sense_.
 Let's prove that it is true.
 
