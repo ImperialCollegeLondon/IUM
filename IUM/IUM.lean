@@ -1,3 +1,10 @@
-import IUM.Addition
 import IUM.Config.ApplyDef
-import IUM.Definition
+import IUM.Int.Definition
+import IUM.Nat.Addition
+import IUM.Nat.ArithLE
+import IUM.Nat.ConsequencesNoConfusion
+import IUM.Nat.Definition
+import IUM.Nat.LE
+import IUM.Nat.LT
+import IUM.Nat.Multiplication
+import IUM.Nat.NoJunkNoConfusion

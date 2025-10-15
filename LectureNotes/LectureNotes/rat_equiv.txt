@@ -1,0 +1,34 @@
+let's jump ahead a little and think about how we might make the positive _rational_ numbers like $`3/7`, because the same issues will show up here and I think they're a bit easier to understand.
+
+Let's define the positive naturals $`\N_{>0}=\{1,2,3,\ldots\}` to be $`\N` with $`0` removed.
+Now, every positive rational number $`q` can be expressed as a ratio $`a/b` of positive naturals, and in particular can be built from two positive naturals.
+So how about we just _define_ the positive rationals to be $`\N_{>0} \times \N_{>0}`, the set of ordered pairs of positive naturals?
+The ordered pair $`(3,7)` would then correspond to the rational number $`3/7`.
+
+But there is a problem here: we have _too many_ positive rationals with this definition.
+The ordered pairs $`(1,2)` and $`(2,4)` are different pairs
+(they are different vectors in the plane, if you like),
+but the rational numbers $`1/2` and $`2/4` are _equal_.
+There isn't just _one_ way to write a positive rational $`q` as a ratio $`a/b`, there are _lots_ of ways.
+
+What we want to do then, is to start with $`\N_{>0} \times \N_{>0}` (which is too big) and then "squish some elements together" and somehow make $`(1,2)` and $`(2,4)` "equal" even though they are not actually equal.
+Once we have squished $`(1,2)` and $`(2,4)` and $`(3,6)` and $`(n,2n)` together, and then squished together all the other different pairs of positive naturals which give rise to the same rational,
+then we really will have defined the positive rationals.
+
+This squishing together of different elements of a set is formally done by putting an _equivalence relation_ on the set, and then considering the _equivalence classes_.
+The axioms of an equivalence relation are an attempt to mimic and generalise the concept of equality.
+When you quotient out a set by an equivalence relation by taking the set of equivalence classes, the concept of equivalence in the bigger set _becomes_ the concept of equality in the quotient set:
+if $`x\sim y` are equivalent, then the equivalence classes $`cl(x)` and $`cl(y)` are _equal_.
+
+Note that there is another possibility here:
+instead of squishing different pairs together, we could decide to _reject_ a pair $`(a,b)` if it's not "in lowest terms",
+i.e. if there is some prime number $`p` dividing both $`a` and $`b`.
+This might superficially look simpler, but it causes real problems later on.
+For example the standard formula $`\frac{a}{b}\times\frac{c}{d}=\frac{ac}{bd}` for multiplying fractions would no longer be valid if we took this approach,
+because even if $`a/b` and $`c/d` are in lowest terms, $`ac/bd` might not be.
+If you define the product to be "put $`\frac{ac}{bd}` in lowest terms" then proving things like associativity of multiplication becomes a _nightmare_.
+Instead of having to manipulate $`ac/bd` to put it into lowest terms,
+our approach is to allow non-lowest-terms fractions but set things up so that they are _equivalent_ to the corresponding lowest term fraction, and then use equivalence classes.
+
+We'll come back to the rationals in the next chapter, but let's use the ideas above to make the integers.
+Just like every positive rational can be written as the ratio of two natural numbers,

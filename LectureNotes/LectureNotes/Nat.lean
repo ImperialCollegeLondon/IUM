@@ -438,7 +438,7 @@ $`0` is zero, and $`1` is called a _unit_.
 
 By "a finite product of prime numbers" below, we mean "a product of finitely many prime numbers", so for example $`84=2^2\times 3\times 7.`
 
-:::proposition "prime_factorization" (title := "Prime factorization")
+:::proposition "prime_factorisation" (title := "Prime factorisation")
 Every natural number greater than one can be factored as a finite product of prime numbers.
 :::
 

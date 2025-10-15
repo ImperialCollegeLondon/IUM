@@ -5,6 +5,7 @@ All rights reserved.
 
 import LectureNotes.Introduction
 import LectureNotes.Nat
+import LectureNotes.Int
 
 set_option autoImplicit false
 set_option pp.rawOnError true
@@ -30,3 +31,5 @@ authors := ["Marie-Amélie Lawn, Kevin Buzzard, Heather Macbeth, ..."]
 {include 1 LectureNotes.Introduction}
 
 {include 1 LectureNotes.Nat}
+
+{include 1 LectureNotes.Int}

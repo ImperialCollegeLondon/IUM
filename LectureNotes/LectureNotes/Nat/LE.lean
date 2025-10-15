@@ -8,7 +8,7 @@ open Verso.Genre Manual
 open Verso.Code.External
 
 set_option verso.exampleProject "../IUM"
-set_option verso.exampleModule "IUM.LE"
+set_option verso.exampleModule "IUM.Nat.LE"
 set_option verso.externalExamples.suppressedNamespaces "MyNat"
 
 #doc (Manual) "The ordering on the naturals"  =>
