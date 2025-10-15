@@ -17,6 +17,8 @@ inductive Decl
   | theorem
   | lemma
   | proposition
+  | corollary
+  | example
   | axiom
   | definition
   deriving Lean.Quote, Lean.ToJson, Lean.FromJson
@@ -26,6 +28,8 @@ instance : ToString Decl where
   | .theorem => "theorem"
   | .lemma => "lemma"
   | .proposition => "proposition"
+  | .corollary => "corollary"
+  | .example => "example"
   | .axiom => "axiom"
   | .definition => "definition"
 
@@ -143,6 +147,12 @@ def «lemma» : DirectiveExpanderOf DeclConfig := decl .lemma
 
 @[directive proposition]
 def proposition : DirectiveExpanderOf DeclConfig := decl .proposition
+
+@[directive corollary]
+def corollary : DirectiveExpanderOf DeclConfig := decl .corollary
+
+@[directive «example»]
+def «example» : DirectiveExpanderOf DeclConfig := decl .example
 
 @[directive «axiom»]
 def «axiom» : DirectiveExpanderOf DeclConfig := decl .axiom

@@ -1,5 +1,5 @@
 import Verbose.English.All
-import IUM.Definition
+import IUM.Nat.Definition
 import IUM.Config.ApplyDef
 
 set_option autoImplicit false

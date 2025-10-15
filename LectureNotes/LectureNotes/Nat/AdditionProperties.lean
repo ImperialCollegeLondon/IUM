@@ -8,7 +8,7 @@ open Verso.Genre Manual
 open Verso.Code.External
 
 set_option verso.exampleProject "../IUM"
-set_option verso.exampleModule "IUM.Addition"
+set_option verso.exampleModule "IUM.Nat.Addition"
 set_option verso.externalExamples.suppressedNamespaces "MyNat"
 
 #doc (Manual) "Basic properties of addition"  =>

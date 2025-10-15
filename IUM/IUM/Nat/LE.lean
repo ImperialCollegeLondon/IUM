@@ -1,4 +1,4 @@
-import IUM.ConsequencesNoConfusion
+import IUM.Nat.ConsequencesNoConfusion
 
 namespace MyNat
 
@@ -75,6 +75,28 @@ Proof:
 QED
 
 instance : Trans ((·: ℕ) ≤ ·) ((·: ℕ) ≤ ·) ((·: ℕ) ≤ ·) := ⟨le_trans⟩
+
+Lemma le_antisymm
+  "Antisymmetry of ≤"
+  Given: {x y : ℕ}
+  Assume: (hxy : x ≤ y) (hyx : y ≤ x)
+  Conclusion: x = y
+Proof:
+  Since ∃ n, y = x + n we get a such that ha : y = x + a
+  Since ∃ n, x = y + n we get b such that hb : x = y + b
+  Fact H : (a + b) + x = x by
+    Calc
+      (a + b) + x = x + (a + b) from add_comm
+      _           = (x + a) + b from add_assoc
+      _           = y + b       from ha
+      _           = x from hb
+  By add_left_eq_self applied to H we get hab : a + b = 0
+  By add_right_eq_zero applied to hab we get ha₀ : a = 0
+  Calc
+    x = x + 0 by definition of add
+    _ = x + a from ha₀
+    _ = y     from ha
+QED
 
 -- ANCHOR: th_le_total
 Lemma le_total

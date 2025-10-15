@@ -8,7 +8,7 @@ open Verso.Genre Manual
 open Verso.Code.External
 
 set_option verso.exampleProject "../IUM"
-set_option verso.exampleModule "IUM.ConsequencesNoConfusion"
+set_option verso.exampleModule "IUM.Nat.ConsequencesNoConfusion"
 set_option verso.externalExamples.suppressedNamespaces "MyNat"
 
 #doc (Manual) "Consequences of these new results"  =>
