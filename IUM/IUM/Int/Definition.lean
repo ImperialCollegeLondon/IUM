@@ -21,7 +21,7 @@ theorem MyNat.equivalence : Equivalence (α := ℕ × ℕ) (fun (a, b) (c, d) �
     dsimp at h1 h2 ⊢
     have :=
     calc
-      a + f + d = a + d + f := by ring
+      (a + f) + d = a + d + f := by ring
       _ = b + c + f := by rw [h1]
       _ = b + (c + f) := by ring
       _ = b + (d + e) := by rw [h2]

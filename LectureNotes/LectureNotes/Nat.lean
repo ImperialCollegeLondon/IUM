@@ -312,7 +312,7 @@ You can make a function $`F` which sends a natural number $`n` to an element of 
 
 (\*) For every $`n`, a function $`p_n` from $`X^{\{t\in\N\mid t<n\}}` to $`X`.
 
-The resulting function $`F` will have the property that $`F(S(n))` is equal to $`p_n(\left.F\right\rvert_{\{t\in\N\mid t<n\}})`.
+The resulting function $`F` will have the property that $`F(n)` is equal to $`p_n(\left.F\right\rvert_{\{t\in\N\mid t<n\}})`.
 :::
 
 This says that it is safe to define a function from $`\N` to a set $`X` by a recursive formula in which $`F(n)` depends on any or all previous values of $`F`.
