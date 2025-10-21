@@ -231,8 +231,8 @@ Proof:
   We represent z as (e, f)
   We lift to the relation on pairs
   Let's prove that
-    (a * (c + e) + b * (d + f), a * (d + f) + b * (c + e))
-    ≈ ((a * c + b * d) + (a * e + b * f), (a * d + b * c) + (a * f + b * e))
+    (a * (c + e) + b * (d + f), a * (d + f) + b * (c + e)) ≈
+    ((a * c + b * d) + (a * e + b * f), (a * d + b * c) + (a * f + b * e))
   We compute
 QED
 ```
